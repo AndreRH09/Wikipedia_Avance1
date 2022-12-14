@@ -5,27 +5,30 @@ use CGI;
 
 my $q = CGI->new;
 my $epq = CGI->new;
-my $eq = CGI->new;
-my $all = $q->param('as_q');
-my $exact = $epq->param('as_epq');
-my $ninguna = $eq->param('as_eq');
-$all =~ s/ /+/g;
-$exact =~ s/ /+/g;
-$ninguna =~ s/ /+/g;
 
-my $search = cadenaSearch();
+
+my $titulo = $q->param('titulo');
+my $texto = $epq->param('texto');
+
+# $all =~ s/ /+/g;
+# $exact =~ s/ /+/g;
+# $ninguna =~ s/ /+/g;
+
+# my $search = cadenaSearch();
 
 print "Content-type:text/html\r\n\r\n";
 print<<BLOCK;
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Google Search Advanced</title>
+    <title>$titulo</title>
   </head>
 
   <body>
-    <a href="$search=$all&as_epq=$exact&as_eq=$ninguna" target="_blank">Search in Google Advanced</a>
-    <a href="../advancedGoogle.html">Return to Google</a>
+    <h1>$titulo</h1>
+    <p>$texto</p>
+    <h2>Pagina grabada <a
+        href="list.pl"> Listado paginas</a> </h2>
   </body>
 BLOCK
 
