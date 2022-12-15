@@ -37,8 +37,8 @@ $dbh->disconnect;
 print "<ul>\n";
 foreach my $title (@registro){
   print "<li><a href="."view.pl?title=$title".">$title</a>\n";
-  print "<a class=text style=color:red href="."delete.pl?title=$title".">X</a>\n";
-  print "<a class=text style=color:blue href="."edit.pl?title=$title".">E</a>\n";
+  print "<a href="."delete.pl?title=$title"."> <button style=background-color:red >X</button>   </a>\n";
+  print "<a href="."edit.pl?title=$title".">   <button > E </button></a>\n";
 }
 print "</ul>";
 print <<HTML;
