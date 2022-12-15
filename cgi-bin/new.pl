@@ -7,7 +7,8 @@ use DBI;
 my $q = CGI->new;
 print "Content-type:text/html\r\n\r\n";
 my $titulo = $q->param('titulo');
-my $markdown = $q->param('texto');
+my $markdown = $q->param('markdown');
+print $markdown;;
 
 # SegundoMarkdown::
 my $title = $q->param('title');
@@ -40,8 +41,8 @@ print <<BLOCK;
 </html>
 BLOCK
 }
-elsif((!defined($titulo) and !defined($markdown)) or (defined($title) and defined($markdown2))){
-my $sth = $dbh->prepare("UPDATE Wiki01 SET Titulo=? WHERE Title=MarkDown");
+elsif((!defined($titulo) and !defined($markdown)) and (defined($title) and defined($markdown2))){
+my $sth = $dbh->prepare("UPDATE Wiki01 SET Markdown=? WHERE Titulo=?");
 $sth->execute($markdown2, $title);
 print <<BLOCK;
 <!DOCTYPE html>
@@ -61,5 +62,5 @@ print <<BLOCK;
 </html>
 BLOCK
 }
-
+=cut
 

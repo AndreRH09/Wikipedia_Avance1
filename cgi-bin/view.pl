@@ -79,6 +79,7 @@ foreach my $linea (@registro){
   if($linea =~ /^`{3}((\n*.+)*)\n`{3}$/){
     print "<p><code>$1</code></p>";
   }
+  print "<br>";
 }
 print <<HTML;
 </body>
