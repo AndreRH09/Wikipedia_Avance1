@@ -18,7 +18,8 @@ print<<BLOCK;
 
   <body>
     <h1>Nuestras paginas de Wiki</h1>
-    <p>Nuestras paginas de Wiki</p>
+    
+    <hr style="width:70%;text-align:left;margin-left:0">
     <a href="../new.html" target="_blank">Nueva Pagina<br></a>
     <a href="../index.html"> Volver al Inicio</a>
   </body>
