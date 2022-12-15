@@ -1,31 +1,51 @@
 #! /usr/bin/perl
 use strict;
 use warnings;
-use CGI;
+use DBI;
 
-my $q = CGI->new;
-my $name = $q->param('search');
-print $q->header('text/html');
-$name =~ s/ /+/g;
-my $search = cadenaSearch();
-
-print<<BLOCK;
+print "Content-type: text/html; charset=UTF-8\n\n";
+print<<HTML;
 <!DOCTYPE html>
-<html>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<html lang="es">
   <head>
-    <title>Google Images</title>
+    <meta charset="UTF-8">
+    <title>Listado</title>
   </head>
-
   <body>
-    <h1>Nuestras paginas de Wiki</h1>
-    
-    <hr style="width:70%;text-align:left;margin-left:0">
-    <a href="../new.html" target="_blank">Nueva Pagina<br></a>
-    <a href="../index.html"> Volver al Inicio</a>
-  </body>
-BLOCK
+  <h1>Nuestras páginas wiki</h1>
+  <hr>
+HTML
 
-sub cadenaSearch{
-  my $google = 'https://www.google.com/search?q';
-  return $google;
+my @registro;
+my $user = 'alumno';
+my $password = 'pweb1';
+my $dsn = "DBI:MariaDB:database=pweb1;host=localhost";
+my $dbh = DBI->connect($dsn, $user, $password) or die("No se pudo conectar!");;
+
+my $sth = $dbh->prepare("SELECT Titulo FROM Wiki01");
+$sth->execute();
+
+my $i = 0;
+while( my @row = $sth->fetchrow_array ) {
+  $registro[$i] = $row[0];
+  $i++;
 }
+$sth->finish;
+$dbh->disconnect;
+
+print "<ul>\n";
+foreach my $title (@registro){
+  print "<li><a href="."view.pl?title=$title".">$title</a>\n";
+  print "<a class=text style=color:red href="."delete.pl?title=$title".">X</a>\n";
+  print "<a class=text style=color:blue href="."edit.pl?title=$title".">E</a>\n";
+}
+print "</ul>";
+print <<HTML;
+  <hr>
+  <a href="../new.html">Nueva página</a>
+  <br>
+  <a href="../index.html">Volver al inicio</a>
+  </body>
+</html>
+HTML
