@@ -10,30 +10,57 @@ print "Content-type:text/html\r\n\r\n";
 my $titulo = $tit->param('titulo');
 my $markdown = $text->param('texto');
 
+# SegundoMarkdown::
+my $title = $q->param('title');
+my $markdown2 = $q->param('markdown2');
+
 my $user = 'aanazcoh';
 my $password = '12345';
-my $dsn = "DBI:MariaDB:database=pweb1;host=localhost";
+my $dsn = "DBI:MariaDB:database=Lab_Pweb;host=localhost";
 my $dbh = DBI->connect($dsn, $user, $password) or die("No se pudo conectar!");
 
-if((defined($titulo) and defined($markdown))){
-my $sth = $dbh->prepare("INSERT INTO Wiki0.1(Title, Text) VALUE(?,?)");
+if((defined($titulo) and defined($markdown)) or (!defined($title) and !defined($markdown2))){
+my $sth = $dbh->prepare("INSERT INTO Wiki01(Titulo, MarkDown) VALUES (?,?)");
 $sth->execute($titulo, $markdown);
 
-
-print<<BLOCK;
+print <<BLOCK;
 <!DOCTYPE html>
 <html>
   <head>
-    <title>$titulo</title>
+  <title>Pagina wiki</title>
   </head>
-
-  <body>
+    <body>
     <h1>$titulo</h1>
-    <p>$texto</p>
-    <hr style="width:70%;text-align:left;margin-left:0">
-    <h2>Pagina grabada <a
-        href="list.pl"> Listado paginas</a> </h2>
-  </body>
+    <br>
+    <p>$markdown</p>
+    <hr>
+    <h2>Página grabada
+    <a href="list.pl"> Lista de páginas</a>
+    </h2>
+    </body>
+</html>
 BLOCK
 }
+elsif((!defined($titulo) and !defined($markdown)) or (defined($title) and defined($markdown2))){
+my $sth = $dbh->prepare("UPDATE Wiki01 SET Titulo=? WHERE Title=MarkDown");
+$sth->execute($markdown2, $title);
+print <<BLOCK;
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Pagina wiki</title>
+  </head>
+    <body>
+    <h1>$title</h1>
+    <br>
+    <p>$markdown2</p>
+    <hr>
+    <h2>Página grabada
+    <a href="list.pl"> Lista de páginas</a>
+    </h2>
+    </body>
+</html>
+BLOCK
+}
+
 
