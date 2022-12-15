@@ -1,28 +1,24 @@
 #! /usr/bin/perl
 use strict;
 use warnings;
+use DBI;
 use CGI;
 
 my $q = CGI->new;
-my $name = $q->param('search');
-print $q->header('text/html');
-$name =~ s/ /+/g;
-my $search = cadenaSearch();
+my $fn = $q->param('title');
+print $q->header('text/html; charset=utf-8');
 
-print<<BLOCK;
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Google Search</title>
-  </head>
+print "Se borró con éxito la página web titulada $fn";
+my $user = 'alumno';
+my $password = 'pweb1';
+my $dsn = "DBI:MariaDB:database=pweb1;host=localhost";
+my $dbh = DBI->connect($dsn, $user, $password) or die("No se pudo conectar!");;
 
-  <body>
-    <a href="$search=$name" target="_blank">Search in Google</a>
-    <a href="../index.html">Return to Google</a>
-  </body>
-BLOCK
+my $sth = $dbh->prepare("DELETE FROM Wiki01 WHERE Titulo=?");
+$sth->execute($fn);
+$dbh->disconnect;
 
-sub cadenaSearch{
-  my $google = 'https://www.google.com/search?q';
-  return $google;
-}
+print <<HTML;
+<br>
+<a href="list.pl">Volver a la lista</a>
+HTML
