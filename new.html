@@ -10,11 +10,15 @@
 
 <body>
     <form name="new" method="post" action="cgi-bin/new.pl">
-        <label for="ftitulo">Titulo</label>
-        <input type="text" name="titulo"> <br>
-        <label for="fTexto">Texto</label>
-        <input type="text" name="texto"> <br>
-        <input type="submit" value="enviar"><br>
+        <label for="titulo">Título</label>
+        <input type="texto" placeholder="Escribe el título..." maxlength="100" name="titulo" id="titulo">
+        <br>
+        <label for="markdown">Texto</label>
+        <br>
+        <textarea placeholder="Escribe el texto..." style="width: 313px; height: 227px; white-space: pre-wrap;"
+            maxlength="255" name="markdown" rows="15" cols="17" id="markdown"></textarea>
+        <br>
+        <input type="submit">
     </form>
     <a href="index.html">Cancelar</a>
 
